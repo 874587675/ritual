@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: dev #切换到dev配置
+#    active: prod #切换到prod配置
+#    active: test #切换到test配置

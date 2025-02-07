@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.User">
+    <!--@mbg.generated-->
+    <!--@Table t_user-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="history_phone" jdbcType="VARCHAR" property="historyPhone" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, open_id, username, `password`, nickname, `status`, sex, email, avatar, phone, 
+    history_phone, is_deleted, create_time, update_time
+  </sql>
+</mapper>

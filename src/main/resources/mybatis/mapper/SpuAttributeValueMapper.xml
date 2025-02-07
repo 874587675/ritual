@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.SpuAttributeValueMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.SpuAttributeValue">
+    <!--@mbg.generated-->
+    <!--@Table t_spu_attribute_value-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="spu_id" jdbcType="INTEGER" property="spuId" />
+    <result column="attribute_id" jdbcType="INTEGER" property="attributeId" />
+    <result column="attribute_name" jdbcType="VARCHAR" property="attributeName" />
+    <result column="attribute_value" jdbcType="VARCHAR" property="attributeValue" />
+    <result column="attribute_sort" jdbcType="INTEGER" property="attributeSort" />
+    <result column="quick_show" jdbcType="INTEGER" property="quickShow" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, spu_id, attribute_id, attribute_name, attribute_value, attribute_sort, quick_show, 
+    create_time, update_time, is_deleted
+  </sql>
+</mapper>

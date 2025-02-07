@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.UserRealMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.UserReal">
+    <!--@mbg.generated-->
+    <!--@Table t_user_real-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="id_card_number" jdbcType="VARCHAR" property="idCardNumber" />
+    <result column="id_card_front" jdbcType="VARCHAR" property="idCardFront" />
+    <result column="id_card_back" jdbcType="VARCHAR" property="idCardBack" />
+    <result column="id_card_hand" jdbcType="VARCHAR" property="idCardHand" />
+    <result column="id_card_address" jdbcType="VARCHAR" property="idCardAddress" />
+    <result column="domicile" jdbcType="VARCHAR" property="domicile" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="zodiac" jdbcType="VARCHAR" property="zodiac" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="is_real" jdbcType="TINYINT" property="isReal" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, user_id, real_name, id_card_number, id_card_front, id_card_back, id_card_hand, 
+    id_card_address, domicile, age, sex, zodiac, birthday, is_real, is_deleted, create_time, 
+    update_time
+  </sql>
+</mapper>

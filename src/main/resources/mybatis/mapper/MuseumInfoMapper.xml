@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.MuseumInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.MuseumInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_museum_info-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+    <result column="video" jdbcType="LONGVARCHAR" property="video" />
+    <result column="popularity" jdbcType="INTEGER" property="popularity" />
+    <result column="exposure" jdbcType="INTEGER" property="exposure" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="birth_date_lunar" jdbcType="TIMESTAMP" property="birthDateLunar" />
+    <result column="birth_count" jdbcType="INTEGER" property="birthCount" />
+    <result column="is_lunar_birth" jdbcType="INTEGER" property="isLunarBirth" />
+    <result column="death_date" jdbcType="TIMESTAMP" property="deathDate" />
+    <result column="death_date_lunar" jdbcType="TIMESTAMP" property="deathDateLunar" />
+    <result column="death_count" jdbcType="INTEGER" property="deathCount" />
+    <result column="is_lunar_death" jdbcType="INTEGER" property="isLunarDeath" />
+    <result column="death_verify" jdbcType="VARCHAR" property="deathVerify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="museum_back_id" jdbcType="VARCHAR" property="museumBackId" />
+    <result column="museum_sound_id" jdbcType="VARCHAR" property="museumSoundId" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="memorial_num" jdbcType="INTEGER" property="memorialNum" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="is_public" jdbcType="INTEGER" property="isPublic" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="spirit_title_id" jdbcType="INTEGER" property="spiritTitleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `type`, `name`, introduce, avatar, picture, video, popularity, exposure, 
+    sort, create_time, update_time, birth_date, birth_date_lunar, birth_count, is_lunar_birth, 
+    death_date, death_date_lunar, death_count, is_lunar_death, death_verify,`status`, museum_back_id, museum_sound_id,
+    `location`, family_name, latitude, longitude, memorial_num, phone, is_public,user_id,spirit_title_id
+  </sql>
+  
+  <update id="updateTodayMuseumInfo">
+    UPDATE t_museum_info
+    SET status = CASE
+                     WHEN DATE(birth_date) = DATE(:date) THEN 1
+                     WHEN DATE(death_date) = DATE(:date) THEN 2
+                     ELSE status -- 如果都不匹配，则保持原值
+      END
+    WHERE
+      (DATE(birth_date) = DATE(:date)) OR
+      (DATE(death_date) = DATE(:date));
+  </update>
+
+
+  <resultMap id="MuseumInfoDetailMap" type="com.ruoyi.project.business.vo.MuseumInfoVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+    <result column="video" jdbcType="LONGVARCHAR" property="video" />
+    <result column="popularity" jdbcType="INTEGER" property="popularity" />
+    <result column="exposure" jdbcType="INTEGER" property="exposure" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="birth_date_lunar" jdbcType="TIMESTAMP" property="birthDateLunar" />
+    <result column="birth_count" jdbcType="INTEGER" property="birthCount" />
+    <result column="is_lunar_birth" jdbcType="INTEGER" property="isLunarBirth" />
+    <result column="death_date" jdbcType="TIMESTAMP" property="deathDate" />
+    <result column="death_date_lunar" jdbcType="TIMESTAMP" property="deathDateLunar" />
+    <result column="death_count" jdbcType="INTEGER" property="deathCount" />
+    <result column="is_lunar_death" jdbcType="INTEGER" property="isLunarDeath" />
+    <result column="death_verify" jdbcType="VARCHAR" property="deathVerify" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="museum_back_id" jdbcType="VARCHAR" property="museumBackId" />
+    <result column="museum_sound_id" jdbcType="VARCHAR" property="museumSoundId" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="memorial_num" jdbcType="INTEGER" property="memorialNum" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="is_public" jdbcType="INTEGER" property="isPublic" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="spirit_title_id" jdbcType="INTEGER" property="spiritTitleId" />
+    
+    
+    <result column="gift_count" property="familyWorshipCount" />
+    <result column="candle_count" property="lightCandleCount" />
+    <result column="death_days" property="deathDays" />
+    <result column="birth_days" property="birthDays" />
+    <result column="light_health_count" property="lightHealthCount" /> 
+    <result column="light_achievement_count" property="lightAchievementCount" />
+    <result column="light_treasure_count" property="lightTreasureCount" />
+    <result column="light_wealth_count" property="lightWealthCount" />
+    
+  </resultMap>
+  
+  <select id="selectMuseumInfoDetailByMuseumId" resultMap="MuseumInfoDetailMap">
+    select mi.*,
+    COUNT(gi.count) as gift_count,
+    SUM(IF(item.id = 1, gi.count, 0)) as candle_count,
+    COUNT(IF(gi.item_id = 10 and gi.order_status = 2 and gi.expire_time > NOW(),gi,0)) as light_health_count,
+    COUNT(IF(gi.item_id = 11 and gi.order_status = 2 and gi.expire_time > NOW(),gi,0)) as light_achievement_count,
+    COUNT(IF(gi.item_id = 12 and gi.order_status = 2 and gi.expire_time > NOW(),gi,0)) as light_treasure_count,
+    COUNT(IF(gi.item_id = 13 and gi.order_status = 2 and gi.expire_time > NOW(),gi,0)) as light_wealth_count,
+    DATEDIFF(
+    -- 如果忌日已经过了，则计算下一个忌日
+    IF(
+    DATE_FORMAT(NOW(), '%m-%d') > DATE_FORMAT(mi.death_date, '%m-%d'),
+    CONCAT(YEAR(NOW()) + 1, '-', DATE_FORMAT(mi.death_date, '%m-%d')),
+    CONCAT(YEAR(NOW()), '-', DATE_FORMAT(mi.death_date, '%m-%d'))
+    ),
+    NOW()
+    ) as death_days,
+    DATEDIFF(
+    -- 如果诞辰已经过了，则计算下一个诞辰
+    IF(
+    DATE_FORMAT(NOW(), '%m-%d') > DATE_FORMAT(mi.birth_date, '%m-%d'),
+    CONCAT(YEAR(NOW()) + 1, '-', DATE_FORMAT(mi.birth_date, '%m-%d')),
+    CONCAT(YEAR(NOW()), '-', DATE_FORMAT(mi.birth_date, '%m-%d'))
+    ),
+    NOW()
+    ) as birth_days
+    from t_museum_info as mi
+    left join t_gift_item as gi on mi.id = gi.museum_id
+    left join t_item as item on item.id = gi.item_id
+    <where>
+      <if test="museumId!=null">
+        mi.id = #{museumId}
+      </if>
+    </where>
+  </select>
+</mapper>

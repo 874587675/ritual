@@ -24,7 +24,7 @@ public class AttributeGroup implements Serializable {
     /**
      * 分组id
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value="分组id")
     private Integer id;
 

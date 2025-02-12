@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class SkuImages implements Serializable {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value="id")
     private Integer id;
 
@@ -59,6 +60,7 @@ public class SkuImages implements Serializable {
     /**
      * 创建时间
      */
+    @JsonIgnore
     @TableField(value = "create_time")
     @ApiModelProperty(value="创建时间")
     private Date createTime;
@@ -66,6 +68,7 @@ public class SkuImages implements Serializable {
     /**
      * 更新时间
      */
+    @JsonIgnore
     @TableField(value = "update_time")
     @ApiModelProperty(value="更新时间")
     private Date updateTime;

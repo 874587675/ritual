@@ -8,7 +8,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+
+import cn.hutool.core.date.ChineseDate;
+import cn.hutool.core.date.DateUtil;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
@@ -188,4 +193,25 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
     }
+
+    /**
+     * 将农历日期转换为公历日期
+     *
+     * @param lunarDate 农历日期（格式：yyyy-MM-dd）
+     * @return 公历日期（格式：yyyy-MM-dd）
+     */
+    public static Date lunarToSolar(Date lunarDate) {
+        // 将 Date 转换为农历的年、月、日
+        int year = DateUtils.toCalendar(lunarDate).get(Calendar.YEAR);
+        int month = DateUtils.toCalendar(lunarDate).get(Calendar.MONTH) + 1; // 月份从 0 开始，需要 +1
+        int day = DateUtils.toCalendar(lunarDate).get(Calendar.DAY_OF_MONTH);
+
+        // 创建 ChineseDate 对象
+        ChineseDate chineseDate = new ChineseDate(year, month, day);
+
+        // 获取公历日期
+
+        return chineseDate.getGregorianDate();
+    }
+
 }

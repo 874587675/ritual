@@ -11,13 +11,12 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 public enum OrderStatus {
-    // 1待支付 2未支付 3已支付 4已取消 5已退款
-    WAIT_PAY(1, "待支付"),
-    NO_PAY(2, "未支付"),
-    PAYED(3, "已支付"),
-    CANCEL(4, "已取消"),
-    REFUNDED(5, "已退款");
-    
+    // （1未支付 2已支付 3已取消 4已退款）
+    NO_PAY(1, "未支付"),
+    PAYED(2, "已支付"),
+    CANCEL(3, "已取消"),
+    REFUNDED(4, "已退款"),
+    CLOSED(5, "已关闭");
     private Integer code;
     private String status;
 }

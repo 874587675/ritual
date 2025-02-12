@@ -1,5 +1,6 @@
 package com.ruoyi.project.business.service.impl;
 
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.constant.CacheConstants;
@@ -22,6 +23,8 @@ import com.ruoyi.project.business.mapper.UserMapper;
 import com.ruoyi.project.business.service.UserService;
 import com.ruoyi.project.business.util.aliyun.sms.SmsUtil;
 import com.ruoyi.project.system.service.SysConfigService;
+import me.chanjar.weixin.common.error.WxErrorException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,6 +52,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private RedisCache redisCache;
+
+    @Resource
+    private WxMiniAppService wxMiniAppService;
 
 
     @Override
@@ -185,7 +191,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return message;
     }
-
+    
     @Override
     public String registerByPhone(String phone, String password, String code) {
         String message = "";
@@ -267,5 +273,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         User user = getOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email));
         return user != null;
+    }
+
+    @Override
+    public String loginByWx(String code,String phone,String phoneCode) throws WxErrorException {
+        // 通过 code 获取 openid 和 session_key
+        WxMaJscode2SessionResult sessionInfo = wxMiniAppService.getSessionInfo(code);
+        String openId = sessionInfo.getOpenid();
+        
+        //session_key 是敏感信息，不能直接返回给小程序端。
+        //建议在服务器端生成自定义登录态（如 JWT），并将登录态返回给小程序端。
+//        String sessionKey = sessionInfo.getSessionKey();
+        
+        if (!smsUtil.verifyPhoneCode(phone, phoneCode)) {
+            throw new ServiceException("输入的验证码有误，请稍后再试");
+        }
+        User user = getOne(new LambdaQueryWrapper<User>().eq(User::getPhone, phone).or().eq(User::getHistoryPhone, phone));
+        if (user == null) {
+            user = User.builder().phone(phone).openId(openId).build();
+            // 保存用户信息
+            save(user);
+        }
+        return tokenService.createToken(new LoginUser(user));
     }
 }

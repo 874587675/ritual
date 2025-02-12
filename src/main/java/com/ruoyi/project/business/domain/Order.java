@@ -24,7 +24,7 @@ public class Order implements Serializable {
     /**
      * 订单表主键
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value = "订单表主键")
     private String id;
 

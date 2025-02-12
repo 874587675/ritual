@@ -24,7 +24,7 @@ public class Category implements Serializable {
     /**
      * 分类id
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value="分类id")
     private Integer id;
 

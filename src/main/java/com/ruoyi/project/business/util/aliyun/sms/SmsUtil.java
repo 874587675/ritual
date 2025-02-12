@@ -82,7 +82,7 @@ public class SmsUtil {
         log.info("验证码code为:{}" , code);
         CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);// 使用CompletableFuture异步返回值
         SendSmsResponse resp = response.get();   // 同步执行
-        System.out.println(JSON.toJSON(resp));  
+//        System.out.println(JSON.toJSON(resp));  
         //异步执行输出
 //        response.thenAccept(resp -> {   
 //            System.out.println(new Gson().toJson(resp));

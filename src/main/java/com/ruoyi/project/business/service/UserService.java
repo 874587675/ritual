@@ -2,6 +2,7 @@ package com.ruoyi.project.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.project.business.domain.User;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 
 public interface UserService extends IService<User> {
@@ -21,5 +22,5 @@ public interface UserService extends IService<User> {
 
     Boolean checkEmail(String email);
 
-   
+    String loginByWx(String code,String phone,String phoneCode) throws WxErrorException;
 }

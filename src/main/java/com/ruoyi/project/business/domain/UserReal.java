@@ -18,7 +18,7 @@ public class UserReal implements Serializable {
     /**
      * 用户真实信息表主键ID
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value = "用户真实信息表主键ID")
     private String id;
 

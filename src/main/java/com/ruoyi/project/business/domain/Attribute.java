@@ -24,7 +24,7 @@ public class Attribute implements Serializable {
     /**
      * 属性id
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value="属性id")
     private Integer id;
 

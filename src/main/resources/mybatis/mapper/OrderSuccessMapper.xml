@@ -11,7 +11,7 @@
     <result column="payer_total" jdbcType="DECIMAL" property="payerTotal" />
     <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
     <result column="bank_type" jdbcType="VARCHAR" property="bankType" />
-    <result column="trade_type" jdbcType="TINYINT" property="tradeType" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />

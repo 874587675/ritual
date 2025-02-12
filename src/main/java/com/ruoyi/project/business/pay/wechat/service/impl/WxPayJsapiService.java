@@ -65,7 +65,8 @@ public class WxPayJsapiService implements WxPaymentFactory {
         
         //订单金额信息
         Amount amount = new Amount();
-        amount.setTotal(1);
+//        amount.setTotal(1);
+        amount.setTotal(weChatJsapiPayVO.getAmount().getTotal() * 100); //单位分
         request.setAmount(amount);
         
         //用户在直连商户appid下的唯一标识。 下单前需获取到用户的Openid
@@ -81,7 +82,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             redisCache.setCacheObject(WxPayCommon.getWxPayCacheKey(weChatJsapiPayVO), payReturnMap);
             return payReturnMap;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("JSAPI下单-异常：{}", e.getMessage());
             throw new ServiceException("JSAPI下单-失败");
         }
     }
@@ -99,7 +100,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("查询订单-微信支付微信订单号查询-结束：{}",JSON.toJSONString(transaction));
             return transaction;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("查询订单-微信支付微信订单号查询-异常：{}", ex.getMessage());
             throw new ServiceException("查询订单-微信支付微信订单号查询-失败");
         }
     }
@@ -117,7 +118,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("查询订单-微信支付商户订单号查询-结束：{}",JSON.toJSONString(transaction));
             return transaction;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("查询订单-微信商户支付订单号查询-异常：{}", ex.getMessage());
             throw new ServiceException("查询订单-微信商户支付订单号查询-失败");
         }
     }
@@ -137,7 +138,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("关闭订单-结束：{}", true);
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("关闭订单-异常：{}", ex.getMessage());
             throw new ServiceException("关闭订单-失败");
         }
     }
@@ -164,7 +165,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("申请退款-结束：{}",true);
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("申请退款-异常：{}", ex.getMessage());
             throw new ServiceException("申请退款-异常");
         }
     }
@@ -191,7 +192,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("申请退款-结束：{}", true);
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("申请退款-异常：{}", ex.getMessage());
             throw new ServiceException("申请退款-异常");
         }
     }
@@ -210,7 +211,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("查询单笔退款-结束：{}",JSON.toJSONString(transaction));
             return transaction;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("查询单笔退款-异常：{}", ex.getMessage());
             throw new ServiceException("查询单笔退款-异常");
         }
     }
@@ -235,7 +236,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("支付通知-结束：{}", JSON.toJSONString(transaction));
             return transaction;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("支付通知-异常：{}", ex.getMessage());
             throw new ServiceException("支付通知-异常");
         }
     }
@@ -260,7 +261,7 @@ public class WxPayJsapiService implements WxPaymentFactory {
             log.info("退款结果通知-结束：{}", JSON.toJSONString(refundNotification));
             return refundNotification;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("退款结果通知-异常：{}", ex.getMessage());
             throw new ServiceException("退款结果通知-异常");
         }
     }

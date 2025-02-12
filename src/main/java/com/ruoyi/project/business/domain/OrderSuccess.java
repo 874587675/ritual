@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,12 +18,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @TableName(value = "t_order_success")
 public class OrderSuccess implements Serializable {
     /**
      * 订单支付成功表主键
      */
-    @TableId(value = "id", type = IdType.NONE)
+    @TableId(value = "id")
     @ApiModelProperty(value = "订单支付成功表主键")
     private String id;
 
@@ -78,7 +80,7 @@ public class OrderSuccess implements Serializable {
      */
     @TableField(value = "trade_type")
     @ApiModelProperty(value = "交易类型（1公众号或小程序支付 2Native支付 3APP支付 4付款码支付 5H5支付 6刷脸支付）")
-    private Integer tradeType;
+    private String tradeType;
 
     /**
      * 支付完成创建时间

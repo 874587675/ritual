@@ -8,7 +8,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
     <result column="publish_status" jdbcType="INTEGER" property="publishStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -17,7 +17,29 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `name`, description, category_id, weight, publish_status, create_time, update_time, 
+    id, `name`, description, category_id, brand_id, publish_status, create_time, update_time, 
     introduce, is_deleted
   </sql>
+
+  <resultMap id="SpuInfoVOMap" type="com.ruoyi.project.business.vo.SpuInfoVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" /> 
+    <result column="min_price" jdbcType="DECIMAL" property="price" /> 
+    <result column="total_sale_count" jdbcType="INTEGER" property="saleCount" /> 
+  </resultMap>
+  <select id="selectAllSpuInfo" resultMap="SpuInfoVOMap">
+    select spu.id, spu.name, spu.description,spuImg.img_url,
+    MIN(sku.price) as min_price, <!-- 获取最低价格 -->
+    SUM(sku.sale_count) as total_sale_count  <!-- 计算销售数量总和 -->
+    from t_spu_info as spu
+    left join t_spu_image as spuImg on spu.id = spuImg.spu_id
+    left join t_sku_info as sku on spu.id = sku.spu_id
+    <where>
+      and spuImg.default_flag = 1
+      and sku.stock > 0 
+    </where>
+    group by spu.id, spu.name, spu.description, spuImg.img_url <!-- 按商品进行分组 -->
+  </select>
 </mapper>

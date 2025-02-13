@@ -63,4 +63,9 @@ public class GiftItemServiceImpl extends ServiceImpl<GiftItemMapper, GiftItem> i
         }
         return giftItemMapper.selectCount(new LambdaQueryWrapper<GiftItem>().eq(GiftItem::getItemId,1).eq(GiftItem::getMuseumId,museumId));
     }
+
+    @Override
+    public IPage<GiftItemVO> selectItemByUserId(Integer pageNo, Integer pageSize, String userId) {
+        return giftItemMapper.selectItemByUserId(new Page<>(pageNo,pageSize),userId);
+    }
 }

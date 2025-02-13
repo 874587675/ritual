@@ -233,4 +233,10 @@ public class MuseumInfo {
      */
     @TableField(value = "spirit_title_id")
     private Integer spiritTitleId;
+
+    /**
+     * 逻辑删除（0未删除 1已删除）
+     */
+    @TableField(value = "is_deleted")
+    private Integer isDeleted;
 }

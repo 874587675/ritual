@@ -23,4 +23,45 @@
     <!--@mbg.generated-->
     id, item_id, user_id,option_id, nick_name, room_id, museum_id, create_time, update_time, score,`count`,order_id,order_status,expire_time
   </sql>
+    
+  
+  <resultMap id="GiftItemDetailMap" type="com.ruoyi.project.business.vo.GiftItemVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="option_id" jdbcType="INTEGER" property="optionId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="room_id" jdbcType="INTEGER" property="roomId" />
+    <result column="museum_id" jdbcType="INTEGER" property="museumId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+
+    <result column="museum_name" jdbcType="VARCHAR" property="museumName" />
+    
+    <association property="item" javaType="com.ruoyi.project.business.domain.Item">
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="description" jdbcType="VARCHAR" property="description" />
+      <result column="type_id" jdbcType="INTEGER" property="typeId" />
+      <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+      <result column="validate_days" jdbcType="INTEGER" property="validateDays" />
+      <result column="score" jdbcType="DOUBLE" property="score" />
+      <result column="price" jdbcType="DECIMAL" property="price" />
+    </association>
+  </resultMap>
+  <select id="selectItemByUserId" resultMap="GiftItemDetailMap">
+    select gi.*, item.*,mi.name as museum_name
+    from t_gift_item as gi
+    left join t_item as item on gi.item_id = item.id
+    left join t_museum_info mi on gi.museum_id = mi.id
+    <where>
+      <if test="userId != null and userId != ''">
+        and gi.user_id=#{userId}
+      </if>
+    </where>
+  </select>
 </mapper>

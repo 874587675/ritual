@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,55 +13,48 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value = "t_item")
-public class Item {
+@TableName(value = "t_balance_change")
+public class BalanceChange {
     /**
-     * 虚拟物品主键ID
+     * 钱包余额变动记录表
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
     /**
-     * 虚拟物品名
+     * 钱包编号ID
+     */
+    @TableField(value = "wallet_id")
+    private Integer walletId;
+
+    /**
+     * 余额变动名称
      */
     @TableField(value = "`name`")
     private String name;
-    
-    /**
-     * 虚拟物品描述
-     */
-    @TableField(value = "description")
-    private String description;
-    
-    /**
-     * 物品种类ID
-     */
-    @TableField(value = "type_id")
-    private Integer typeId;
 
     /**
-     * 物品图片
+     * 余额变动金额
      */
-    @TableField(value = "img_url")
-    private String imgUrl;
+    @TableField(value = "amount")
+    private BigDecimal amount;
 
     /**
-     * 物品积分
+     * 余额变动的状态
+1-未审核
+2-审核通过
+3-审核不通过
      */
-    @TableField(value = "score")
-    private Double score;
+    @TableField(value = "`status`")
+    private Integer status;
 
     /**
-     * 有效期（天数）
+     * 余额变动的类型
+1 提现
+2 佣金到账
      */
-    @TableField(value = "validate_days")
-    private Integer validateDays;
-    
-    /**
-     * 物品价格
-     */
-    @TableField(value = "price")
-    private BigDecimal price;
+    @TableField(value = "`type`")
+    private Integer type;
 
     /**
      * 创建时间

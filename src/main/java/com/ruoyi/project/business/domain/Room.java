@@ -64,4 +64,10 @@ public class Room {
      */
     @TableField(value = "update_time")
     private Date updateTime;
+
+    /**
+     * 逻辑删除（0未删除，1已删除）
+     */
+    @TableField(value = "is_deleted")
+    private Integer isDeleted;
 }

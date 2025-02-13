@@ -12,9 +12,70 @@
     <result column="room_status" jdbcType="INTEGER" property="roomStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `name`, museum_id, room_back_id,user_id, room_status, create_time, update_time
+    id, `name`, museum_id, room_back_id,user_id, room_status, create_time, update_time,is_deleted
   </sql>
+  
+  <resultMap id="RoomDetailMap" type="com.ruoyi.project.business.vo.RoomVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="museum_id" jdbcType="INTEGER" property="museumId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="room_back_id" jdbcType="INTEGER" property="roomBackId" />
+    <result column="room_status" jdbcType="INTEGER" property="roomStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    
+    <association property="museumInfo" javaType="com.ruoyi.project.business.domain.MuseumInfo">
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+      <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+      <result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+      <result column="video" jdbcType="LONGVARCHAR" property="video" />
+      <result column="popularity" jdbcType="INTEGER" property="popularity" />
+      <result column="exposure" jdbcType="INTEGER" property="exposure" />
+      <result column="sort" jdbcType="INTEGER" property="sort" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+      <result column="birth_date_lunar" jdbcType="TIMESTAMP" property="birthDateLunar" />
+      <result column="birth_count" jdbcType="INTEGER" property="birthCount" />
+      <result column="is_lunar_birth" jdbcType="INTEGER" property="isLunarBirth" />
+      <result column="death_date" jdbcType="TIMESTAMP" property="deathDate" />
+      <result column="death_date_lunar" jdbcType="TIMESTAMP" property="deathDateLunar" />
+      <result column="death_count" jdbcType="INTEGER" property="deathCount" />
+      <result column="is_lunar_death" jdbcType="INTEGER" property="isLunarDeath" />
+      <result column="death_verify" jdbcType="VARCHAR" property="deathVerify" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="museum_back_id" jdbcType="VARCHAR" property="museumBackId" />
+      <result column="museum_sound_id" jdbcType="VARCHAR" property="museumSoundId" />
+      <result column="location" jdbcType="VARCHAR" property="location" />
+      <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+      <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+      <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+      <result column="memorial_num" jdbcType="INTEGER" property="memorialNum" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="is_public" jdbcType="INTEGER" property="isPublic" />
+      <result column="user_id" jdbcType="VARCHAR" property="userId" />
+      <result column="spirit_title_id" jdbcType="INTEGER" property="spiritTitleId" />
+      <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    </association>
+  </resultMap>
+  
+  <select id="myRoom" resultMap="RoomDetailMap">
+    select room.*,mi.*
+    from t_room as room
+    left join t_museum_info as mi on room.museum_id = mi.id
+    <where>
+      <if test="userId != null and userId != ''">
+        room.user_id = #{userId}
+      </if>
+      order by room.create_time desc
+    </where>
+  </select>
 </mapper>

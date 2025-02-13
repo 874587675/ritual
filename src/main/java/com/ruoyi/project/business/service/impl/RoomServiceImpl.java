@@ -1,6 +1,8 @@
 package com.ruoyi.project.business.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.project.business.constant.RoleEnum;
@@ -104,5 +106,10 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
             log.error("更换房间背景失败",e);
             throw new ServiceException("更换房间背景失败");
         }
+    }
+
+    @Override
+    public IPage<RoomVO> myRoom(Integer pageNo, Integer pageSize, String userId) {
+        return roomMapper.myRoom(new Page<>(pageNo,pageSize),userId);
     }
 }

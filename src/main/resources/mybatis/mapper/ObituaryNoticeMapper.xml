@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.ObituaryNoticeMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.ObituaryNotice">
+    <!--@mbg.generated-->
+    <!--@Table t_obituary_notice-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="museum_id" jdbcType="INTEGER" property="museumId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, content, user_id, museum_id, create_time, update_time
+  </sql>
+  
+  <resultMap id="ObituaryNoticeDetailVO" type="com.ruoyi.project.business.vo.ObituaryNoticeVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="museum_id" jdbcType="INTEGER" property="museumId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    
+    <result column="museum_name" property="museumName" />
+  </resultMap>
+  
+  <select id="selectObituaryNoticeByUserId" resultMap="ObituaryNoticeDetailVO">
+    select obn.*, mi.name as museum_name
+    from t_obituary_notice as obn 
+    left join t_museum_info as mi on mi.id = obn.museum_id
+    <where>
+      <if test="userId != null and userId != ''">
+        and obn.user_id =#{userId}
+      </if>
+    </where>
+  </select>
+</mapper>

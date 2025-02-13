@@ -64,4 +64,14 @@ public class MuseumInfoVO extends MuseumInfo {
      * 点亮荣华富贵灯的数量
      */
     private Integer lightWealthCount;
+
+    /**
+     * 供奉灵位的数量
+     */
+    private Integer spiritPositionCount;
+
+    /**
+     * 关注纪念馆的状态
+     */
+    private Integer watchStatus;
 }

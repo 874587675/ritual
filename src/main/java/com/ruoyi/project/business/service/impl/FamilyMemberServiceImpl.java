@@ -29,7 +29,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
     private FamilyMemberMapper familyMemberMapper;
 
     @Override
-    public IPage<FamilyMember> selectAllFamilyMembersByTeamId(Integer pageNo, Integer pageSize, Long teamId) {
+    public IPage<FamilyMember> selectAllFamilyMembersByTeamId(Integer pageNo, Integer pageSize, Integer teamId) {
         return page(new Page<>(pageNo,pageSize),new LambdaQueryWrapper<FamilyMember>().eq(FamilyMember::getTeamId,teamId).orderByDesc(FamilyMember::getCreateTime));
     }
 
@@ -58,7 +58,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
 
     @Override
     @Transactional
-    public String transFamilyMemberRole(Long teamId, Long oldUserId, Long newUserId) {
+    public String transFamilyMemberRole(Integer teamId, Integer oldUserId, Integer newUserId) {
         try{
             FamilyTeam familyTeam = familyTeamMapper.selectById(teamId);
             if (familyTeam == null){
@@ -92,7 +92,7 @@ public class FamilyMemberServiceImpl extends ServiceImpl<FamilyMemberMapper, Fam
 
     @Override
     @Transactional
-    public String deleteFamilyMember(Long id) {
+    public String deleteFamilyMember(Integer id) {
         try{
             FamilyMember familyMember = familyMemberMapper.selectById(id);
             if(familyMember!=null){

@@ -49,5 +49,14 @@ public class GiftItemController {
     public R<Long> selectLightedCandlesCountByMuseumId(@RequestParam Integer museumId) {
         return R.ok(giftItemService.selectLightedCandlesCountByMuseumId(museumId));
     }
-
+    
+    @ApiOperation("分页查询个人供奉的虚拟礼物记录")
+    @GetMapping("/selectItemByUserId")
+    public R<IPage<GiftItemVO>> selectItemByUserId(@RequestParam(defaultValue = "1") Integer pageNo,
+                                                 @RequestParam(defaultValue = "10") Integer pageSize,
+                                                 @RequestParam String userId) {
+        return R.ok(giftItemService.selectItemByUserId(pageNo, pageSize, userId));
+    }
+    
+    
 }

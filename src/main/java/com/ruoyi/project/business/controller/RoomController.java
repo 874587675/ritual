@@ -1,5 +1,6 @@
 package com.ruoyi.project.business.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.framework.web.domain.R;
 import com.ruoyi.project.business.domain.Room;
 import com.ruoyi.project.business.domain.RoomBack;
@@ -26,7 +27,7 @@ public class RoomController {
         return R.ok(roomService.createRoom(roomVO));
     }
     
-    @ApiOperation("关闭房间")
+    @ApiOperation("关闭结束房间")
     @PostMapping("/closeRoom")
     public R<String> closeRoom(@RequestParam Integer id){
         return R.ok(roomService.closeRoom(id));
@@ -37,5 +38,14 @@ public class RoomController {
     public R<String> changeRoomBack(@RequestBody RoomBack roomBack){
         return R.ok(roomService.changeRoomBack(roomBack));
     }
+    
+    @ApiOperation("查询我发布的追思会房间")
+    @GetMapping("/myRoom")
+    public R<IPage<RoomVO>> myRoom(@RequestParam(defaultValue = "1") Integer pageNo,
+                                   @RequestParam(defaultValue = "10") Integer pageSize,
+                                   @RequestParam String userId){
+        return R.ok(roomService.myRoom(pageNo,pageSize,userId));
+    }
+    
     
 }

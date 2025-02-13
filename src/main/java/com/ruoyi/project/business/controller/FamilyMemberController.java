@@ -27,7 +27,7 @@ public class FamilyMemberController {
     @GetMapping("/selectAllFamilyMembersByTeamId")
     public R<IPage<FamilyMember>> selectAllFamilyMembersByTeamId(@RequestParam(defaultValue = "1") Integer pageNo,
                                                               @RequestParam(defaultValue = "10") Integer pageSize,
-                                                              @RequestParam Long teamId) {
+                                                              @RequestParam Integer teamId) {
         return R.ok(familyMemberService.selectAllFamilyMembersByTeamId(pageNo, pageSize, teamId));
     }
     
@@ -39,13 +39,13 @@ public class FamilyMemberController {
     
     @ApiOperation("转让亲友团的管理权")
     @PostMapping("/transFamilyMemberRole")
-    public R<String> transFamilyMemberRole(@RequestParam Long teamId, @RequestParam Long oldUserId, @RequestParam Long newUserId) {
+    public R<String> transFamilyMemberRole(@RequestParam Integer teamId, @RequestParam Integer oldUserId, @RequestParam Integer newUserId) {
         return R.ok(familyMemberService.transFamilyMemberRole(teamId, oldUserId, newUserId));
     }
     
-    @ApiOperation("移除亲友团成员操作")
+    @ApiOperation("移除或退出亲友团成员操作")
     @PostMapping("/deleteFamilyMember")
-    public R<String> deleteFamilyMember(@RequestParam Long id) {
+    public R<String> deleteFamilyMember(@RequestParam Integer id) {
         return R.ok(familyMemberService.deleteFamilyMember(id));
     }
     

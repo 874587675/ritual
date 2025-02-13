@@ -37,13 +37,14 @@
     <result column="is_public" jdbcType="INTEGER" property="isPublic" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="spirit_title_id" jdbcType="INTEGER" property="spiritTitleId" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, `type`, `name`, introduce, avatar, picture, video, popularity, exposure, 
     sort, create_time, update_time, birth_date, birth_date_lunar, birth_count, is_lunar_birth, 
     death_date, death_date_lunar, death_count, is_lunar_death, death_verify,`status`, museum_back_id, museum_sound_id,
-    `location`, family_name, latitude, longitude, memorial_num, phone, is_public,user_id,spirit_title_id
+    `location`, family_name, latitude, longitude, memorial_num, phone, is_public,user_id,spirit_title_id,is_deleted
   </sql>
   
   <update id="updateTodayMuseumInfo">
@@ -93,6 +94,7 @@
     <result column="is_public" jdbcType="INTEGER" property="isPublic" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="spirit_title_id" jdbcType="INTEGER" property="spiritTitleId" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     
     
     <result column="gift_count" property="familyWorshipCount" />
@@ -103,6 +105,8 @@
     <result column="light_achievement_count" property="lightAchievementCount" />
     <result column="light_treasure_count" property="lightTreasureCount" />
     <result column="light_wealth_count" property="lightWealthCount" />
+    <result column="spirit_position_count" property="spiritPositionCount" />
+    <result column="watch_status" property="watchStatus" />
     
   </resultMap>
   
@@ -138,6 +142,40 @@
     <where>
       <if test="museumId!=null">
         mi.id = #{museumId}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectMuseumInfoFamilyByUserId" resultMap="MuseumInfoDetailMap">
+    select mi.*,
+    COUNT(sp.id) as spirit_position_count
+    from t_museum_info as mi
+    left join t_spirit_position as sp on mi.id = sp.museum_id
+    <where>
+      <if test="userId != null and userId != ''">
+        and mi.user_id = #{userId}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectJoinFamilyMuseumInfoByUserId" resultMap="BaseResultMap">
+    select mi.*
+    from t_museum_info as mi
+    left join t_family_team as ft on mi.id = ft.museum_id
+    <where>
+      <if test="userId!=null and userId != ''">
+        and mi.user_id = #{userId}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectMuseumWatchByUserId" resultMap="MuseumInfoDetailMap">
+    select mi.*,mw.watch_status
+    from t_museum_info as mi
+    left join t_museum_watch as mw on mw.museum_id = mi.id
+    <where>
+      <if test="userId!=null and userId != ''">
+        and mi.user_id = #{userId}
       </if>
     </where>
   </select>

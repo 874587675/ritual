@@ -11,6 +11,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.RateLimiter;
 import com.ruoyi.project.business.util.aliyun.sms.SmsUtil;
 import com.ruoyi.project.business.vo.MuseumInfoVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,7 +35,7 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
 
     @Override
     public IPage<MuseumInfo> selectMuseumInfoPage(Integer pageNo, Integer pageSize, Integer type) {
-        return page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<MuseumInfo>().eq(MuseumInfo::getType, type));
+        return page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<MuseumInfo>().eq(MuseumInfo::getType, type).eq(MuseumInfo::getIsDeleted, 0));
     }
 
     @Override
@@ -43,12 +44,14 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
                 .eq(MuseumInfo::getStatus, 1)
                 .or()
                 .eq(MuseumInfo::getStatus, 2)
+                .eq(MuseumInfo::getIsDeleted, 0)
                 .orderByDesc(MuseumInfo::getCreateTime));
     }
 
     @Override
     public IPage<MuseumInfo> selectNewMuseumInfo(Integer pageNo, Integer pageSize) {
         return page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<MuseumInfo>()
+                .eq(MuseumInfo::getIsDeleted, 0)
                 .orderByDesc(MuseumInfo::getCreateTime));
     }
 
@@ -78,9 +81,19 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
             museumInfoVO.setExposure(0);
             museumInfoVO.setPopularity(0);
             museumInfoVO.setIsPublic(1);
+            museumInfoVO.setIsDeleted(0);
 
-            save(museumInfoVO);
-            return "创建个人馆成功";
+
+            MuseumInfo museumInfo = new MuseumInfo();
+            BeanUtils.copyProperties(museumInfoVO, museumInfo);
+            boolean saveResult = save(museumInfo);
+            if (saveResult) {
+                log.info("创建个人馆成功");
+                return "创建个人馆成功";
+            } else {
+                log.error("创建个人馆失败");
+                throw new ServiceException("创建个人馆失败");
+            }
         } catch (Exception e) {
             log.error("创建个人馆失败: ", e);
             throw new ServiceException("创建个人馆失败");
@@ -95,8 +108,16 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
             museumInfoVO.setExposure(0);
             museumInfoVO.setPopularity(0);
 
-            museumInfoMapper.insert(museumInfoVO);
-            return "创建祠堂馆成功";
+            MuseumInfo museumInfo = new MuseumInfo();
+            BeanUtils.copyProperties(museumInfoVO, museumInfo);
+            int insertResult = museumInfoMapper.insert(museumInfo);
+            if (insertResult <= 0) {
+                log.error("创建祠堂馆失败");
+                throw new ServiceException("创建祠堂馆失败");
+            }else{
+                log.info("创建祠堂馆成功");
+                return "创建祠堂馆成功";
+            }
         } catch (Exception e) {
             log.error("创建祠堂馆失败: ", e);
             throw new ServiceException("创建祠堂馆失败");
@@ -104,7 +125,7 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
     }
 
     @Override
-    public IPage<MuseumInfo> selectMuseumInfoSelfByUserId(Integer pageNo, Integer pageSize, Integer userId) {
+    public IPage<MuseumInfo> selectMuseumInfoSelfByUserId(Integer pageNo, Integer pageSize, String userId) {
         return page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<MuseumInfo>().eq(MuseumInfo::getUserId, userId).orderByDesc(MuseumInfo::getUpdateTime));
     }
 
@@ -160,26 +181,65 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
 
     @Override
     @Transactional
-    @RateLimiter(key = "updateMuseumStatusByMuseumId",time = 10,count = 3)
+    @RateLimiter(key = "updateMuseumStatusByMuseumId", time = 10, count = 3)
     public String updateMuseumStatusByMuseumId(Integer museumId) {
-        try{
+        try {
             MuseumInfo museumInfo = museumInfoMapper.selectById(museumId);
-            if (museumInfo == null){
+            if (museumInfo == null) {
                 log.error("该纪念馆不存在");
                 throw new ServiceException("该纪念馆不存在");
-            }else{
-                museumInfo.setIsPublic(museumInfo.getIsPublic()==0 ? 1 : museumInfo.getIsPublic());
+            } else {
+                museumInfo.setIsPublic(museumInfo.getIsPublic() == 0 ? 1 : museumInfo.getIsPublic());
                 int updateResult = museumInfoMapper.updateById(museumInfo);
-                if (updateResult<=0){
+                if (updateResult <= 0) {
                     log.error("纪念馆ID:{},更新状态失败", museumId);
                     throw new ServiceException("纪念馆更新状态失败");
                 }
                 log.info("纪念馆ID:{},更新状态成功", museumId);
                 return "更新状态成功";
             }
-        }catch (Exception e){
-            log.error("该纪念馆不存在 {}",e.getMessage());
+        } catch (Exception e) {
+            log.error("该纪念馆不存在 {}", e.getMessage());
             throw new ServiceException("该纪念馆不存在");
         }
+    }
+
+    @Override
+    @Transactional
+    public String deleteMuseumInfoByMuseumId(Integer museumId) {
+        try {
+            MuseumInfo museumInfo = museumInfoMapper.selectById(museumId);
+            if (museumInfo == null) {
+                log.error("该纪念馆不存在");
+                throw new ServiceException("该纪念馆不存在");
+            } else {
+                int updateResult = museumInfoMapper.update(new LambdaUpdateWrapper<MuseumInfo>().eq(MuseumInfo::getId, museumId).set(MuseumInfo::getIsDeleted, 1));
+                if (updateResult <= 0) {
+                    log.error("纪念馆ID:{},删除纪念馆失败", museumId);
+                    throw new ServiceException("删除纪念馆失败");
+                }
+                log.info("纪念馆ID:{},删除纪念馆成功", museumId);
+                return "删除纪念馆成功";
+            }
+        } catch (Exception e) {
+            log.error("删除纪念馆失败 {}", e.getMessage());
+            throw new ServiceException("删除纪念馆失败");
+        }
+    }
+
+
+    @Override
+    public IPage<MuseumInfoVO> selectMuseumInfoFamilyByUserId(Integer pageNo, Integer pageSize, String userId) {
+        return museumInfoMapper.selectMuseumInfoFamilyByUserId(new Page<>(pageNo,pageSize), userId);
+    }
+
+    @Override
+    public IPage<MuseumInfo> selectJoinFamilyMuseumInfoByUserId(Integer pageNo, Integer pageSize, String userId) {
+        return museumInfoMapper.selectJoinFamilyMuseumInfoByUserId(new Page<>(pageNo,pageSize), userId);
+    }
+
+    @Override
+    public IPage<MuseumInfoVO> selectMuseumWatchByUserId(Integer pageNo, Integer pageSize, String userId) {
+        return museumInfoMapper.selectMuseumWatchByUserId(new Page<>(pageNo,pageSize), userId);
     }
 }

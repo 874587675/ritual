@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.math.BigDecimal;
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,55 +12,37 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value = "t_item")
-public class Item {
+@TableName(value = "t_obituary_notice")
+public class ObituaryNotice {
     /**
-     * 虚拟物品主键ID
+     * 讣告通知表主键ID
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
     /**
-     * 虚拟物品名
+     * 讣告名称
      */
     @TableField(value = "`name`")
     private String name;
-    
-    /**
-     * 虚拟物品描述
-     */
-    @TableField(value = "description")
-    private String description;
-    
-    /**
-     * 物品种类ID
-     */
-    @TableField(value = "type_id")
-    private Integer typeId;
 
     /**
-     * 物品图片
+     * 讣告内容
      */
-    @TableField(value = "img_url")
-    private String imgUrl;
+    @TableField(value = "content")
+    private String content;
 
     /**
-     * 物品积分
+     * 用户主键ID
      */
-    @TableField(value = "score")
-    private Double score;
+    @TableField(value = "user_id")
+    private String userId;
 
     /**
-     * 有效期（天数）
+     * 纪念馆ID
      */
-    @TableField(value = "validate_days")
-    private Integer validateDays;
-    
-    /**
-     * 物品价格
-     */
-    @TableField(value = "price")
-    private BigDecimal price;
+    @TableField(value = "museum_id")
+    private Integer museumId;
 
     /**
      * 创建时间

@@ -18,7 +18,7 @@ public interface MuseumInfoService extends IService<MuseumInfo>{
 
     String createMuseumInfoFamilyByUserId(MuseumInfoVO museumInfoVO);
 
-    IPage<MuseumInfo> selectMuseumInfoSelfByUserId(Integer pageNo, Integer pageSize, Integer userId);
+    IPage<MuseumInfo> selectMuseumInfoSelfByUserId(Integer pageNo, Integer pageSize, String userId);
     
     String updatePictureByMuseumId(Integer museumId, String picture);
 
@@ -27,4 +27,12 @@ public interface MuseumInfoService extends IService<MuseumInfo>{
     MuseumInfoVO selectMuseumInfoDetailByMuseumId(Integer museumId);
 
     String updateMuseumStatusByMuseumId(Integer museumId);
+
+    String deleteMuseumInfoByMuseumId(Integer museumId);
+
+    IPage<MuseumInfoVO> selectMuseumInfoFamilyByUserId(Integer pageNo, Integer pageSize, String userId);
+
+    IPage<MuseumInfo> selectJoinFamilyMuseumInfoByUserId(Integer pageNo, Integer pageSize, String userId);
+
+    IPage<MuseumInfoVO> selectMuseumWatchByUserId(Integer pageNo, Integer pageSize, String userId);
 }

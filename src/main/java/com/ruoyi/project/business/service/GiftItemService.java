@@ -16,6 +16,6 @@ public interface GiftItemService extends IService<GiftItem>{
     List<GiftItemVO> selectGiftItemRank();
 
     Long selectLightedCandlesCountByMuseumId(Integer museumId);
-
     
+    IPage<GiftItemVO> selectItemByUserId(Integer pageNo, Integer pageSize, String userId);
 }

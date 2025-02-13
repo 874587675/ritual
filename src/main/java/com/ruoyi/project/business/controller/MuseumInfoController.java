@@ -57,12 +57,20 @@ public class MuseumInfoController {
         return R.ok(museumInfoService.createMuseumInfoFamilyByUserId(museumInfoVO));
     }
 
-    @ApiOperation("查询个人纪念馆")
+    @ApiOperation("分页查询个人纪念馆")
     @GetMapping("/selectMuseumInfoSelfByUserId")
     public R<IPage<MuseumInfo>> selectMuseumInfoSelfByUserId(@RequestParam(defaultValue = "1") Integer pageNo, 
                                                              @RequestParam(defaultValue = "10") Integer pageSize, 
-                                                             @RequestParam Integer userId) {
+                                                             @RequestParam String userId) {
         return R.ok(museumInfoService.selectMuseumInfoSelfByUserId(pageNo,pageSize,userId));
+    }
+    
+    @ApiOperation("分页查询个人创建的祠堂馆")
+    @GetMapping("/selectMuseumInfoFamilyByUserId")
+    public R<IPage<MuseumInfoVO>> selectMuseumInfoFamilyByUserId(@RequestParam(defaultValue = "1") Integer pageNo, 
+                                                              @RequestParam(defaultValue = "10") Integer pageSize, 
+                                                              @RequestParam String userId) {
+        return R.ok(museumInfoService.selectMuseumInfoFamilyByUserId(pageNo, pageSize, userId));
     }
     
     @ApiOperation("更新馆藏相册信息")
@@ -87,6 +95,28 @@ public class MuseumInfoController {
     @PostMapping("/updateMuseumStatusByMuseumId")
     public R<String> updateMuseumStatusByMuseumId(@RequestParam Integer museumId) {
         return R.ok(museumInfoService.updateMuseumStatusByMuseumId(museumId));
+    }
+    
+    @ApiOperation("删除纪念馆")
+    @PostMapping("/deleteMuseumInfoByMuseumId")
+    public R<String> deleteMuseumInfoByMuseumId(@RequestParam Integer museumId) {
+        return R.ok(museumInfoService.deleteMuseumInfoByMuseumId(museumId));
+    }
+    
+    @ApiOperation("查询加入亲友团的纪念馆")
+    @GetMapping("/selectJoinFamilyMuseumInfoByUserId")
+    public R<IPage<MuseumInfo>> selectJoinFamilyMuseumInfoByUserId(@RequestParam(defaultValue = "1") Integer pageNo, 
+                                                                 @RequestParam(defaultValue = "10") Integer pageSize, 
+                                                                 @RequestParam String userId) {
+        return R.ok(museumInfoService.selectJoinFamilyMuseumInfoByUserId(pageNo, pageSize, userId));
+    }
+
+    @ApiOperation("分页查询个人关注的纪念馆信息")
+    @GetMapping("/selectMuseumWatchByUserId")
+    public R<IPage<MuseumInfoVO>> selectMuseumWatchByUserId(@RequestParam(defaultValue = "1") Integer pageNo,
+                                                            @RequestParam(defaultValue = "10") Integer pageSize,
+                                                            @RequestParam String userId){
+        return R.ok(museumInfoService.selectMuseumWatchByUserId(pageNo, pageSize, userId));
     }
 }
 

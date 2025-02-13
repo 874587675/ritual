@@ -26,4 +26,6 @@ public class FamilyTeamController {
     public R<String>  generateFamilyQRCode(@RequestParam Integer teamId,@RequestParam String userId){
         return R.ok(familyTeamService.generateFamilyQRCode(teamId,userId));
     }
+    
+    
 }

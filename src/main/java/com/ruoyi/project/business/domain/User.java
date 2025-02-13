@@ -116,5 +116,12 @@ public class User implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
+    /**
+     * 分享二维码
+     */
+    @TableField(value = "qr_code")
+    @ApiModelProperty(value = "分享二维码")
+    private String qrCode;
+
     private static final long serialVersionUID = 1L;
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.AgencyMapper">
+  <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.Agency">
+    <!--@mbg.generated-->
+    <!--@Table t_agency-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="id_card_z" jdbcType="VARCHAR" property="idCardZ" />
+    <result column="id_card_f" jdbcType="VARCHAR" property="idCardF" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, phone, area, latitude, longitude, user_id, id_card_z, id_card_f, `status`, 
+    create_time, update_time
+  </sql>
+</mapper>

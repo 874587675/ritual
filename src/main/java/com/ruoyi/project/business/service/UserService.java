@@ -23,4 +23,8 @@ public interface UserService extends IService<User> {
     Boolean checkEmail(String email);
 
     String loginByWx(String code,String phone,String phoneCode) throws WxErrorException;
+
+    String updateUserInfoByUserId(User user);
+
+    String generateShareQRCode(String userId);
 }

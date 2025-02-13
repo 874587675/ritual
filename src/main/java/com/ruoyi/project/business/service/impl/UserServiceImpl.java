@@ -1,7 +1,9 @@
 package com.ruoyi.project.business.service.impl;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
@@ -18,48 +20,60 @@ import com.ruoyi.framework.redis.RedisCache;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.framework.security.context.AuthenticationContextHolder;
 import com.ruoyi.framework.security.service.TokenService;
+import com.ruoyi.project.business.domain.FamilyTeam;
 import com.ruoyi.project.business.domain.User;
 import com.ruoyi.project.business.mapper.UserMapper;
 import com.ruoyi.project.business.service.UserService;
+import com.ruoyi.project.business.util.aliyun.oss.OssUtil;
 import com.ruoyi.project.business.util.aliyun.sms.SmsUtil;
 import com.ruoyi.project.system.service.SysConfigService;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 import static com.ruoyi.common.constant.UserConstants.EMAIL_REGEX;
 
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Resource
     private TokenService tokenService;
-
     @Resource
     private SmsUtil smsUtil;
-
     @Resource(name = "customAuthenticationManager")
     private AuthenticationManager authenticationManager;
-
     @Resource
     private SysConfigService configService;
-
     @Resource
     private RedisCache redisCache;
-
     @Resource
     private WxMiniAppService wxMiniAppService;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private WxMaService wxMaService;
+    @Resource
+    private OssUtil ossUtil;
 
 
     @Override
     public String loginByUsername(String username, String password, String code, String uuid) {
-
         // 验证码校验
         validateCaptcha(username, code, uuid);
         // 登录前置校验
@@ -112,7 +126,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
     }
-    
+
     /**
      * 登录前置校验
      *
@@ -144,7 +158,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BlackListException();
         }
     }
-    
+
     @Override
     public String loginByPhone(String phone, String code) {
         //检查短信验证码
@@ -191,7 +205,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return message;
     }
-    
+
     @Override
     public String registerByPhone(String phone, String password, String code) {
         String message = "";
@@ -276,15 +290,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public String loginByWx(String code,String phone,String phoneCode) throws WxErrorException {
+    public String loginByWx(String code, String phone, String phoneCode) throws WxErrorException {
         // 通过 code 获取 openid 和 session_key
         WxMaJscode2SessionResult sessionInfo = wxMiniAppService.getSessionInfo(code);
         String openId = sessionInfo.getOpenid();
-        
+
         //session_key 是敏感信息，不能直接返回给小程序端。
         //建议在服务器端生成自定义登录态（如 JWT），并将登录态返回给小程序端。
 //        String sessionKey = sessionInfo.getSessionKey();
-        
+
         if (!smsUtil.verifyPhoneCode(phone, phoneCode)) {
             throw new ServiceException("输入的验证码有误，请稍后再试");
         }
@@ -295,5 +309,98 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             save(user);
         }
         return tokenService.createToken(new LoginUser(user));
+    }
+
+    @Override
+    @Transactional
+    public String updateUserInfoByUserId(User user) {
+        try {
+            User userResult = getById(user.getId());
+            if (userResult == null) {
+                log.error("该用户不存在 用户ID：{}", user.getId());
+                throw new ServiceException("该用户不存在");
+            } else {
+                boolean updateResult = updateById(user);
+                if (updateResult) {
+                    log.info("用户信息修改成功,用户ID：{}", user.getId());
+                    return "用户信息修改成功";
+                } else {
+                    log.error("用户信息修改失败,用户ID：{}", user.getId());
+                    return "用户信息修改失败";
+                }
+            }
+        } catch (Exception e) {
+            log.error("修改用户信息发生异常,用户ID：{}，异常：{}", user.getId(), e.getMessage());
+            throw new ServiceException("修改用户信息发生异常");
+        }
+    }
+
+    @Override
+    public String generateShareQRCode(String userId) {
+        try {
+            // 获取亲友团的信息
+            User user = userMapper.selectById(userId);
+            // 检查是否已有亲友团图片
+            String existingQrCode = user.getQrCode();
+
+            // 判断是否已经有生成的二维码
+            if (StringUtils.isNotBlank(existingQrCode)) {
+                return existingQrCode;
+            }
+
+            // 生成二维码
+            BufferedImage qrCode = generateQRCode(userId);
+
+            // 合成最终的邀请图
+            BufferedImage finalImage = combineImageWithQRCode(qrCode);
+
+            // 上传图片并获取图片URL
+            String imageUrl = uploadImageToOss(finalImage);
+
+            // 更新用户邀请二维码
+            updateTeamQRCode(userId,imageUrl);
+
+            return imageUrl;
+        } catch (Exception e) {
+            log.error("生成用户邀请图异常", e);
+            return "生成错误";
+        }
+    }
+
+    private BufferedImage generateQRCode(String userId) throws IOException, WxErrorException {
+        // 通过微信服务生成二维码
+        String qrCodeUrl = "pagesA/login/login?&userId=" + userId;
+        return ImageIO.read(wxMaService.getQrcodeService().createWxaCode(qrCodeUrl, 440));
+    }
+
+    private BufferedImage combineImageWithQRCode(BufferedImage qrCode) throws IOException {
+        // 加载海报背景
+        BufferedImage imageWithQr = ImageIO.read(new ClassPathResource("static/poster.png").getInputStream());
+
+        // 在海报上绘制二维码
+        Graphics2D graphics = imageWithQr.createGraphics();
+        graphics.drawImage(qrCode, 130, 660, 500, 500, null);
+        graphics.dispose();  // 完成绘制后释放资源
+
+        return imageWithQr;
+    }
+
+    private String uploadImageToOss(BufferedImage finalImage) throws IOException {
+        // 将图片转成字节流并上传到OSS
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(finalImage, "png", byteArrayOutputStream);
+        byteArrayOutputStream.flush();
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
+        byteArrayOutputStream.close();
+
+        return ossUtil.uploadFileByType(new MockMultipartFile("image.png", "image.png", "image/png", imageBytes),"image").getUrl();
+    }
+
+    private void updateTeamQRCode(String userId, String imageUrl) {
+        // 更新亲友团的邀请二维码信息
+        userMapper.update(new LambdaUpdateWrapper<User>()
+                .eq(User::getId, userId)
+                .set(User::getQrCode, imageUrl)
+        );
     }
 }

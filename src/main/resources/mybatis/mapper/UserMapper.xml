@@ -15,13 +15,14 @@
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="history_phone" jdbcType="VARCHAR" property="historyPhone" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="qr_code" jdbcType="INTEGER" property="qrCode" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, open_id, username, `password`, nickname, `status`, sex, email, avatar, phone, 
-    history_phone, is_deleted, create_time, update_time
+    history_phone, is_deleted, create_time, update_time,qr_code
   </sql>
 </mapper>

@@ -24,12 +24,12 @@ import javax.annotation.Resource;
 public class RoomMembersServiceImpl extends ServiceImpl<RoomMembersMapper, RoomMembers> implements RoomMembersService {
     @Resource
     private RoomMembersMapper roomMembersMapper;
-    
+
 
     @Override
-    public IPage<RoomMembers> getRoomMembers(Integer pageNo,Integer pageSize,Integer roomId) {
-        return page(new Page<>(pageNo,pageSize),new LambdaQueryWrapper<RoomMembers>()
-                .eq(RoomMembers::getRoomId,roomId)
+    public IPage<RoomMembers> getRoomMembers(Integer pageNo, Integer pageSize, Integer roomId) {
+        return page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<RoomMembers>()
+                .eq(RoomMembers::getRoomId, roomId)
                 .orderByDesc(RoomMembers::getGiftScore));
     }
 
@@ -74,6 +74,4 @@ public class RoomMembersServiceImpl extends ServiceImpl<RoomMembersMapper, RoomM
             throw new ServiceException("删除房间成员失败");
         }
     }
-    
-    
 }

@@ -1,18 +1,18 @@
 package com.ruoyi.project.business.controller;
-import com.ruoyi.project.business.domain.SkuInfo;
-import com.ruoyi.project.business.service.SkuInfoService;
-import com.ruoyi.project.business.service.impl.SkuInfoServiceImpl;
-import org.springframework.web.bind.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ruoyi.project.business.service.SkuInfoService;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 @RestController
+@Api(tags = "SKU商品信息管理")
 @RequestMapping("/skuInfo")
 public class SkuInfoController {
-
-    @Autowired
+    @Resource
     private SkuInfoService skuInfoService;
 
-
-
+    
 }

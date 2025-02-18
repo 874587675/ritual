@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String loginByUsername(String username, String password, String code, String uuid) {
         // 验证码校验
-        validateCaptcha(username, code, uuid);
+//        validateCaptcha(username, code, uuid);
         // 登录前置校验
         loginPreCheck(username, password);
 

@@ -40,7 +40,12 @@ public class GiftItem {
     @TableField(value = "option_id")
     private Integer optionId;
 
-
+    /**
+     * 讣告ID
+     */
+    @TableField(value = "obituary_id")
+    public Integer obituaryId;
+    
     /**
      * 用户名称
      */
@@ -100,4 +105,6 @@ public class GiftItem {
      */
     @TableField(value = "expire_time")
     private Date expireTime;
+    
+    
 }

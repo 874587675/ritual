@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface OrderService extends IService<Order>{
-    Map<String, String> createItemOrder(WeChatJsapiPayVO WeChatJsapiPayVO);
+    Map<String, String> createItemOrder(WeChatJsapiPayVO weChatJsapiPayVO);
 
     String payItemCallback(HttpServletRequest request);
 }

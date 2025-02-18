@@ -9,4 +9,10 @@ public interface SpuInfoService extends IService<SpuInfo>{
 
 
     IPage<SpuInfoVO> selectSpuInfoPage(Integer pageNo, Integer pageSize);
+
+    IPage<SpuInfoVO> selectHotSpuInfoPage(Integer pageNo, Integer pageSize);
+
+    SpuInfoVO selectSpuInfoById(Integer spuId);
+
+    SpuInfoVO selectAllSkuInfo(Integer spuId);
 }

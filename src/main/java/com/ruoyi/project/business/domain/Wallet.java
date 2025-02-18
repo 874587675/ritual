@@ -18,7 +18,7 @@ public class Wallet {
     /**
      * 用户钱包表
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id")
     private Integer id;
 
     /**
@@ -31,7 +31,13 @@ public class Wallet {
      * 用户编号ID
      */
     @TableField(value = "user_id")
-    private Integer userId;
+    private String userId;
+
+    /**
+     * 用户open_id
+     */
+    @TableField(value = "open_id")
+    private String openId;
 
     /**
      * 钱包状态

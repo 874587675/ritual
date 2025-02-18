@@ -28,6 +28,7 @@
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" /> 
     <result column="min_price" jdbcType="DECIMAL" property="price" /> 
     <result column="total_sale_count" jdbcType="INTEGER" property="saleCount" /> 
+    <result column="origin_price" jdbcType="DECIMAL" property="originPrice" />
   </resultMap>
   <select id="selectAllSpuInfo" resultMap="SpuInfoVOMap">
     select spu.id, spu.name, spu.description,spuImg.img_url,
@@ -41,5 +42,37 @@
       and sku.stock > 0 
     </where>
     group by spu.id, spu.name, spu.description, spuImg.img_url <!-- 按商品进行分组 -->
+  </select>
+  
+  <select id="selectHotSpuInfoPage" resultMap="SpuInfoVOMap">
+    select spu.id, spu.name, spu.description,spuImg.img_url,
+    MIN(sku.price) as min_price, <!-- 获取最低价格 -->
+    SUM(sku.sale_count) as total_sale_count  <!-- 计算销售数量总和 -->
+    from t_spu_info as spu
+    left join t_spu_image as spuImg on spu.id = spuImg.spu_id
+    left join t_sku_info as sku on spu.id = sku.spu_id
+    <where>
+      and spuImg.default_flag = 1
+      and sku.stock > 0
+    </where>
+    group by spu.id, spu.name, spu.description, spuImg.img_url <!-- 按商品进行分组 -->
+    order by total_sale_count desc
+  </select>
+  
+  <select id="selectSpuInfoById" resultMap="SpuInfoVOMap">
+    select spu.id, spu.name, spu.description,spuImg.img_url,
+    sku.origin_price,
+    MIN(sku.price) as min_price, <!-- 获取最低价格 -->
+    SUM(sku.sale_count) as total_sale_count  <!-- 计算销售数量总和 -->
+    from t_spu_info as spu
+    left join t_spu_image as spuImg on spu.id = spuImg.spu_id
+    left join t_sku_info as sku on spu.id = sku.spu_id
+    <where>
+      <if test="spuId!=null">
+        and spu.id = #{spuId}
+      </if>
+    </where>
+    group by spu.id, spu.name, spu.description, spuImg.img_url <!-- 按商品进行分组 -->
+    order by total_sale_count desc
   </select>
 </mapper>

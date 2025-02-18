@@ -5,8 +5,10 @@
     <!--@mbg.generated-->
     <!--@Table t_order-->
     <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
     <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
@@ -19,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, open_id, order_no, amount, subject, order_status, order_status_desc, trade_status, 
+    id, user_id,open_id, order_no,address, amount, subject, order_status, order_status_desc, trade_status, 
     trade_status_desc, create_time, update_time, is_deleted
   </sql>
 </mapper>

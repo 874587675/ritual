@@ -6,15 +6,24 @@
     <!--@Table t_obituary_notice-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="death_date" jdbcType="TIMESTAMP" property="deathDate" />
+    <result column="memorial_date" jdbcType="TIMESTAMP" property="memorialDate" />
+    <result column="memorial_address" jdbcType="VARCHAR" property="memorialAddress" />
     <result column="museum_id" jdbcType="INTEGER" property="museumId" />
+    <result column="obituary_back_id" jdbcType="VARCHAR" property="obituaryBackId" />
+    <result column="picture" jdbcType="LONGVARCHAR" property="picture" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `name`, content, user_id, museum_id, create_time, update_time
+    id, `name`, user_id, avatar, phone, content, nick_name, death_date, memorial_date, 
+    memorial_address, museum_id, obituary_back_id, picture, create_time, update_time
   </sql>
   
   <resultMap id="ObituaryNoticeDetailVO" type="com.ruoyi.project.business.vo.ObituaryNoticeVO">

@@ -25,8 +25,8 @@ public class OrderController {
     
     @ApiOperation("新建虚拟物品订单信息(下单)")
     @PostMapping("/createItemOrder")
-    public R<Map<String, String>> createItemOrder(@RequestBody WeChatJsapiPayVO WeChatJsapiPayVO){
-        return R.ok(orderService.createItemOrder(WeChatJsapiPayVO));
+    public R<Map<String, String>> createItemOrder(@RequestBody WeChatJsapiPayVO weChatJsapiPayVO){
+        return R.ok(orderService.createItemOrder(weChatJsapiPayVO));
     }
     
     @ApiOperation("虚拟物品订单支付回调")
@@ -34,6 +34,4 @@ public class OrderController {
     public R<String> payItemCallback(@RequestBody HttpServletRequest request){
         return R.ok(orderService.payItemCallback(request));
     }
-    
-    
 }

@@ -17,7 +17,7 @@ public class MuseumWatch {
     /**
      * 关注纪念馆记录表
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id")
     private Integer id;
 
     /**

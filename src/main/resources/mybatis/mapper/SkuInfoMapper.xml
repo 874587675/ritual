@@ -4,23 +4,36 @@
   <resultMap id="BaseResultMap" type="com.ruoyi.project.business.domain.SkuInfo">
     <!--@mbg.generated-->
     <!--@Table t_sku_info-->
-    <id column="sku_id" jdbcType="INTEGER" property="skuId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="spu_id" jdbcType="INTEGER" property="spuId" />
-    <result column="sku_name" jdbcType="VARCHAR" property="skuName" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="brand_id" jdbcType="INTEGER" property="brandId" />
     <result column="sku_default_img" jdbcType="VARCHAR" property="skuDefaultImg" />
     <result column="sku_title" jdbcType="VARCHAR" property="skuTitle" />
     <result column="sku_subtitle" jdbcType="VARCHAR" property="skuSubtitle" />
     <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="origin_price" jdbcType="DECIMAL" property="originPrice" />
     <result column="sale_count" jdbcType="BIGINT" property="saleCount" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+<!--    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />-->
+<!--    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />-->
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="enable" jdbcType="INTEGER" property="enable" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    sku_id, spu_id, sku_name, category_id, brand_id, sku_default_img, sku_title, sku_subtitle, 
-    price, sale_count, create_time, update_time, is_deleted
+    id, spu_id, category_id, brand_id, sku_default_img, sku_title, sku_subtitle, price, 
+    origin_price, sale_count, create_time, update_time, is_deleted, stock, `enable`
   </sql>
+  
+  <select id="selectAttrValueList" resultType="com.ruoyi.project.business.domain.SkuSaleAttributeValue">
+    select ssav.*
+      from t_sku_sale_attribute_value as ssav 
+    left join t_sku_info as sku on ssav.sku_id = sku.id
+    <where>
+      <if test="spuId != null">
+        sku.spu_id = #{spuId}
+      </if>
+    </where>
+  </select>
 </mapper>

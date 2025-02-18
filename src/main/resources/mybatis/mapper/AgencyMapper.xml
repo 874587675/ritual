@@ -22,4 +22,5 @@
     id, `name`, phone, area, latitude, longitude, user_id, id_card_z, id_card_f, `status`, 
     create_time, update_time
   </sql>
+  
 </mapper>

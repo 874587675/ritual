@@ -18,10 +18,11 @@
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="obituary_id" jdbcType="INTEGER" property="obituaryId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, item_id, user_id,option_id, nick_name, room_id, museum_id, create_time, update_time, score,`count`,order_id,order_status,expire_time
+    id, item_id, user_id,option_id, nick_name, room_id, museum_id, create_time, update_time, score,`count`,order_id,order_status,expire_time,obituary_id
   </sql>
     
   
@@ -40,7 +41,8 @@
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
-
+    <result column="obituary_id" jdbcType="INTEGER" property="obituaryId" />
+    
     <result column="museum_name" jdbcType="VARCHAR" property="museumName" />
     
     <association property="item" javaType="com.ruoyi.project.business.domain.Item">

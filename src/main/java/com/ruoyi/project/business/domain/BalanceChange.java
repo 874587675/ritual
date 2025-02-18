@@ -7,18 +7,20 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.util.Date;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @TableName(value = "t_balance_change")
 public class BalanceChange {
     /**
      * 钱包余额变动记录表
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id")
     private Integer id;
 
     /**
@@ -52,6 +54,7 @@ public class BalanceChange {
      * 余额变动的类型
 1 提现
 2 佣金到账
+3 商城扣款
      */
     @TableField(value = "`type`")
     private Integer type;

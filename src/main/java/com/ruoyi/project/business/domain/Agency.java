@@ -17,7 +17,7 @@ public class Agency {
     /**
      * 城市代理商信息表
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id")
     private Integer id;
 
     /**

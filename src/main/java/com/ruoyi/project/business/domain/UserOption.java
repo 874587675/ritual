@@ -17,7 +17,7 @@ public class UserOption {
     /**
      * 意见表
      */
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id")
     private Integer id;
 
     /**

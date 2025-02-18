@@ -29,6 +29,13 @@ public class Order implements Serializable {
     private String id;
 
     /**
+     * 用户ID
+     */
+    @TableField(value = "user_id")
+    @ApiModelProperty(value = "用户ID")
+    private String userId;
+    
+    /**
      * open_id编号
      */
     @TableField(value = "open_id")
@@ -41,6 +48,13 @@ public class Order implements Serializable {
     @TableField(value = "order_no")
     @ApiModelProperty(value = "订单编号")
     private String orderNo;
+
+    /**
+     * 用户下单地址
+     */
+    @TableField(value = "address")
+    @ApiModelProperty(value = "用户下单地址")
+    private String address;
 
     /**
      * 订单总金额

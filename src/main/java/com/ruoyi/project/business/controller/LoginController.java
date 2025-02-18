@@ -1,18 +1,15 @@
 package com.ruoyi.project.business.controller;
 
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.framework.security.LoginBody;
 import com.ruoyi.framework.security.RegisterBody;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.domain.R;
 import com.ruoyi.project.business.service.UserService;
-import com.ruoyi.project.business.service.impl.WxMiniAppService;
 import com.ruoyi.project.business.util.aliyun.sms.SmsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.error.WxErrorException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -90,7 +87,6 @@ public class LoginController {
 
     /**
      * 小程序登录接口
-     *
      * @param code 小程序端获取的临时登录凭证
      * @return 登录结果
      */

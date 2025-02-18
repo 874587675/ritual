@@ -62,7 +62,7 @@ public class SysLoginController
      * 
      * @return 用户信息
      */
-    @GetMapping("getInfo")
+    @GetMapping("/getInfo")
     public AjaxResult getInfo()
     {
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -88,7 +88,7 @@ public class SysLoginController
      * 
      * @return 路由信息
      */
-    @GetMapping("getRouters")
+    @GetMapping("/getRouters")
     public AjaxResult getRouters()
     {
         Long userId = SecurityUtils.getUserId();

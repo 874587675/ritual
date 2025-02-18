@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.framework.aspectj.lang.annotation.RateLimiter;
+import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.project.business.domain.Message;
 import com.ruoyi.project.business.domain.User;
 import com.ruoyi.project.business.mapper.MessageMapper;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -31,7 +30,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     @Override
     @Transactional
-    @RateLimiter(key = "addMessage", time = 10, count = 3)
+    @RepeatSubmit
     public String addMessage(MessageVO messageVO) {
         try {
             //设置顶级ID

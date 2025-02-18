@@ -8,6 +8,8 @@ import com.ruoyi.common.utils.uuid.IdUtils;
 import com.ruoyi.framework.redis.RedisCache;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.system.service.SysConfigService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @author ruoyi
  */
 @RestController
+@Api(tags = "图片验证码管理模块")
 @Slf4j
 public class CaptchaController
 {
@@ -51,6 +54,7 @@ public class CaptchaController
      * 生成验证码
      */
     @GetMapping("/captchaImage")
+    @ApiOperation("生成验证码")
     public AjaxResult getCode(HttpServletResponse response) throws IOException
     {
         AjaxResult ajax = AjaxResult.success();

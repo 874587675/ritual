@@ -1,6 +1,6 @@
 package com.ruoyi.project.business.controller;
 
-import com.ruoyi.framework.aspectj.lang.annotation.RateLimiter;
+import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.framework.web.domain.R;
 import com.ruoyi.project.business.domain.UserOption;
 import com.ruoyi.project.business.service.UserOptionService;
@@ -24,7 +24,7 @@ public class UserOptionController {
 
     @ApiOperation("用户新增投诉与建议信息")
     @PostMapping("/insertUserOption")
-    @RateLimiter(key = "insertUserOption", time = 20, count = 3)
+    @RepeatSubmit
     public R<String> insertUserOption(@RequestBody UserOption userOption){
         return R.ok(userOptionService.insertUserOption(userOption));
     }

@@ -4,24 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.framework.aspectj.lang.annotation.RateLimiter;
+import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
+import com.ruoyi.project.business.domain.MuseumInfo;
+import com.ruoyi.project.business.mapper.MuseumInfoMapper;
+import com.ruoyi.project.business.service.MuseumInfoService;
 import com.ruoyi.project.business.util.aliyun.sms.SmsUtil;
 import com.ruoyi.project.business.vo.MuseumInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ruoyi.project.business.mapper.MuseumInfoMapper;
-import com.ruoyi.project.business.domain.MuseumInfo;
-import com.ruoyi.project.business.service.MuseumInfoService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -181,7 +178,7 @@ public class MuseumInfoServiceImpl extends ServiceImpl<MuseumInfoMapper, MuseumI
 
     @Override
     @Transactional
-    @RateLimiter(key = "updateMuseumStatusByMuseumId", time = 10, count = 3)
+    @RepeatSubmit
     public String updateMuseumStatusByMuseumId(Integer museumId) {
         try {
             MuseumInfo museumInfo = museumInfoMapper.selectById(museumId);

@@ -2,7 +2,7 @@ package com.ruoyi.project.business.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ruoyi.framework.aspectj.lang.annotation.RateLimiter;
+import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.framework.web.domain.R;
 import com.ruoyi.project.business.domain.MuseumInfo;
 import com.ruoyi.project.business.service.MuseumInfoService;
@@ -43,14 +43,14 @@ public class MuseumInfoController {
         return R.ok(museumInfoService.selectNewMuseumInfo(pageNo, pageSize));
     }
 
-    @RateLimiter(key = "createMuseumInfoSelfByUserId", time = 10, count = 1)
+    @RepeatSubmit
     @ApiOperation("快速创建个人馆")
     @PostMapping("/createMuseumInfoSelfByUserId")
     public R<String> createMuseumInfoSelfByUserId(@RequestBody MuseumInfoVO museumInfoVO) {
         return R.ok(museumInfoService.createMuseumInfoSelfByUserId(museumInfoVO));
     }
 
-    @RateLimiter(key = "createMuseumInfoFamilyByUserId", time = 10, count = 1)
+    @RepeatSubmit
     @ApiOperation("快速创建祠堂馆")
     @PostMapping("/createMuseumInfoFamilyByUserId")
     public R<String> createMuseumInfoFamilyByUserId(@RequestBody MuseumInfoVO museumInfoVO) {

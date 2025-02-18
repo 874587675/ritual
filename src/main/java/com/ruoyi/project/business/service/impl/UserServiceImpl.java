@@ -20,7 +20,6 @@ import com.ruoyi.framework.redis.RedisCache;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.framework.security.context.AuthenticationContextHolder;
 import com.ruoyi.framework.security.service.TokenService;
-import com.ruoyi.project.business.domain.FamilyTeam;
 import com.ruoyi.project.business.domain.User;
 import com.ruoyi.project.business.mapper.UserMapper;
 import com.ruoyi.project.business.service.UserService;
@@ -29,7 +28,6 @@ import com.ruoyi.project.business.util.aliyun.sms.SmsUtil;
 import com.ruoyi.project.system.service.SysConfigService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -74,8 +72,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public String loginByUsername(String username, String password, String code, String uuid) {
-        // 验证码校验
-//        validateCaptcha(username, code, uuid);
+        if (code!=null && uuid !=null){
+            validateCaptcha(username, code, uuid); // 验证码校验
+        }
         // 登录前置校验
         loginPreCheck(username, password);
 

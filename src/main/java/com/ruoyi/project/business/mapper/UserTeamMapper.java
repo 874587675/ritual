@@ -14,4 +14,6 @@ public interface UserTeamMapper extends BaseMapper<UserTeam> {
     UserTeamVO selectForIncomeAndInviteUserCount(@Param("userId") String userId);
 
     IPage<UserTeamVO> selectUserTeam(Page<UserTeam> objectPage,@Param("userId") String userId);
+
+    IPage<UserTeamVO> pageList(Page<UserTeamVO> userTeamVOPage);
 }

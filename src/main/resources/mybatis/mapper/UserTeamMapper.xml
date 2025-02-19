@@ -26,6 +26,7 @@
     <result column="invite_user_count" jdbcType="INTEGER" property="inviteUserCount" />
     
     <association property="user" javaType="com.ruoyi.project.business.domain.User">
+      <result column="user_id" jdbcType="VARCHAR" property="id" />
       <result column="open_id" jdbcType="VARCHAR" property="openId" />
       <result column="username" jdbcType="VARCHAR" property="username" />
       <result column="password" jdbcType="VARCHAR" property="password" />
@@ -36,15 +37,14 @@
       <result column="avatar" jdbcType="VARCHAR" property="avatar" />
       <result column="phone" jdbcType="VARCHAR" property="phone" />
       <result column="history_phone" jdbcType="VARCHAR" property="historyPhone" />
-      <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
       <result column="qr_code" jdbcType="INTEGER" property="qrCode" />
     </association>
   </resultMap>
   
   <select id="selectForIncomeAndInviteUserCount" resultMap="UserTeamDetailMap">
     select ut.*,
-    COUNT(ut.id) as total_income,
-    SUM(ut.income) as invite_user_count
+    COUNT(ut.id) as invite_user_count,
+    SUM(ut.income) as total_income
     from t_user_team as ut
     <where>
       <if test="userId != null and userId != ''">
@@ -63,4 +63,16 @@
       </if>
     </where>
   </select>
+
+  <select id="pageList" resultMap="UserTeamDetailMap">
+    select distinct(ut.top_user_id) as top_user_id,
+                   SUM(ut.income) as total_income,
+                   u.id as user_id,
+                   u.username,
+                   u.sex,
+                   u.phone
+    from t_user_team as ut
+    left join t_user as u on ut.top_user_id = u.id
+  </select>
+
 </mapper>

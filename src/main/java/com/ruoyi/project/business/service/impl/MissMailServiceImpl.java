@@ -12,7 +12,6 @@ import com.ruoyi.project.business.mapper.MissMailMapper;
 import com.ruoyi.project.business.mapper.MissSoundMapper;
 import com.ruoyi.project.business.mapper.UserMapper;
 import com.ruoyi.project.business.service.MissMailService;
-import jdk.jpackage.internal.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +46,7 @@ public class MissMailServiceImpl extends ServiceImpl<MissMailMapper, MissMail> i
             missMail.setNickName(user.getNickname());
             missMail.setAvatar(user.getAvatar());
             missMailMapper.insert(missMail);
-            Log.info("插入思念有音邮箱信息成功");
+            log.info("插入思念有音邮箱信息成功");
             return "插入思念有音邮箱信息成功";
         }catch (Exception e){
             log.error("插入思念有音邮箱信息失败", e);
@@ -65,7 +64,7 @@ public class MissMailServiceImpl extends ServiceImpl<MissMailMapper, MissMail> i
                 throw new ServiceException("找不到此守护星信息");
             }
             missMailMapper.updateById(missMail);
-            Log.info("回复思念有音邮箱信息成功");
+            log.info("回复思念有音邮箱信息成功");
             return "回复思念有音邮箱信息成功";
         }catch (Exception e){
             log.error("回复思念有音邮箱信息失败", e);

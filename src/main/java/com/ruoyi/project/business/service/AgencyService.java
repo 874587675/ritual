@@ -6,4 +6,6 @@ public interface AgencyService extends IService<Agency>{
 
 
     String insertAgencyInfo(Agency agency);
+
+    Boolean audit(Integer id,Integer status);
 }

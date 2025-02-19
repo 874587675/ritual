@@ -1,13 +1,13 @@
 package com.ruoyi.project.business.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.project.business.domain.MuseumBack;
 import com.ruoyi.project.business.mapper.MuseumBackMapper;
 import com.ruoyi.project.business.service.MuseumBackService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -19,7 +19,7 @@ public class MuseumBackServiceImpl extends ServiceImpl<MuseumBackMapper, MuseumB
     private MuseumBackMapper museumBackMapper;
     
     @Override
-    public List<MuseumBack> selectAllMuseumBack() {
-        return list();
+    public IPage<MuseumBack> selectAllMuseumBack(Integer pageNo,Integer pageSize) {
+        return page(new Page<>(pageNo,pageSize));
     }
 }
